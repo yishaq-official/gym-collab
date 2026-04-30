@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yishaq\Server\Core;
 
 use Throwable;
+use Yishaq\Server\Middleware\JsonMiddleware;
 use Yishaq\Server\Router;
 
 final class Application
@@ -34,6 +35,8 @@ final class Application
                 $this->response->noContent(204);
                 return;
             }
+
+            (new JsonMiddleware())->handle($this->request);
 
             $dispatched = $this->router->dispatch($this->request, $this->response);
             if ($dispatched) {

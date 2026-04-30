@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Yishaq\Server\Services;
 
+use Yishaq\Server\Contracts\Services\SettingsServiceInterface;
 use Yishaq\Server\Models\SystemSetting;
 
-final class SettingsService
+final class SettingsService implements SettingsServiceInterface
 {
     private SystemSetting $settings;
 

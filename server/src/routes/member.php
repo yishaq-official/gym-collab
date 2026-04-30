@@ -3,39 +3,21 @@
 declare(strict_types=1);
 
 use Yishaq\Server\Core\AppContext;
-use Yishaq\Server\Core\Exceptions\HttpException;
 use Yishaq\Server\Core\Request;
 use Yishaq\Server\Core\Response;
-use Yishaq\Server\Services\AuthService;
+use Yishaq\Server\Middleware\AuthMiddleware;
+use Yishaq\Server\Middleware\RoleMiddleware;
 
 if (!function_exists('memberRequireAuth')) {
     function memberRequireAuth(Request $request): array
     {
-        $token = $request->bearerToken();
-        if (!$token) {
-            throw new HttpException('Missing bearer token.', 401);
-        }
-
-        $auth = new AuthService();
-        $userId = $auth->userIdFromRequestToken($token);
-        if (!$userId) {
-            throw new HttpException('Invalid or expired token.', 401);
-        }
-
-        $user = $auth->me($userId);
-        if (!$user) {
-            throw new HttpException('User not found.', 404);
-        }
-
-        return $user;
+        $user = (new AuthMiddleware())->authenticate($request);
+        return (new RoleMiddleware('member'))->authorize($user);
     }
 }
 
 $router->get('/api/member/dashboard', static function (Request $request, Response $response): void {
     $user = memberRequireAuth($request);
-    if (($user['role'] ?? '') !== 'member') {
-        throw new HttpException('Forbidden.', 403);
-    }
 
     $profile = is_array($user['member_profile'] ?? null) ? $user['member_profile'] : [];
     $membership = is_array($user['membership'] ?? null) ? $user['membership'] : [];

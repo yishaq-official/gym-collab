@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yishaq\Server\Controllers;
 
 use RuntimeException;
+use Yishaq\Server\Contracts\Services\AuthServiceInterface;
 use Yishaq\Server\Core\Exceptions\HttpException;
 use Yishaq\Server\Core\Request;
 use Yishaq\Server\Core\Response;
@@ -12,9 +13,9 @@ use Yishaq\Server\Services\AuthService;
 
 final class AuthController extends BaseController
 {
-    private AuthService $auth;
+    private AuthServiceInterface $auth;
 
-    public function __construct(?AuthService $auth = null)
+    public function __construct(?AuthServiceInterface $auth = null)
     {
         $this->auth = $auth ?? new AuthService();
     }

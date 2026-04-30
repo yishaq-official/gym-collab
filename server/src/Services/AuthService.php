@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Yishaq\Server\Services;
 
 use RuntimeException;
+use Yishaq\Server\Contracts\Services\AuthServiceInterface;
 use Yishaq\Server\Core\AppContext;
 
-final class AuthService
+final class AuthService implements AuthServiceInterface
 {
     private UserService $users;
     private MemberProfileService $profiles;

@@ -3,35 +3,16 @@
 declare(strict_types=1);
 
 use Yishaq\Server\Core\AppContext;
-use Yishaq\Server\Core\Exceptions\HttpException;
 use Yishaq\Server\Core\Request;
 use Yishaq\Server\Core\Response;
-use Yishaq\Server\Services\AuthService;
+use Yishaq\Server\Middleware\AuthMiddleware;
+use Yishaq\Server\Middleware\RoleMiddleware;
 
 if (!function_exists('adminRequireAuth')) {
     function adminRequireAuth(Request $request): array
     {
-        $token = $request->bearerToken();
-        if (!$token) {
-            throw new HttpException('Missing bearer token.', 401);
-        }
-
-        $auth = new AuthService();
-        $userId = $auth->userIdFromRequestToken($token);
-        if (!$userId) {
-            throw new HttpException('Invalid or expired token.', 401);
-        }
-
-        $user = $auth->me($userId);
-        if (!$user) {
-            throw new HttpException('User not found.', 404);
-        }
-
-        if (($user['role'] ?? '') !== 'admin') {
-            throw new HttpException('Forbidden.', 403);
-        }
-
-        return $user;
+        $user = (new AuthMiddleware())->authenticate($request);
+        return (new RoleMiddleware('admin'))->authorize($user);
     }
 }
 

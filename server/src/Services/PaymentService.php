@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Yishaq\Server\Services;
 
+use Yishaq\Server\Contracts\Services\PaymentServiceInterface;
 use Yishaq\Server\Models\PaymentTransaction;
 
-final class PaymentService
+final class PaymentService implements PaymentServiceInterface
 {
     private PaymentTransaction $transactions;
 
