@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
@@ -219,3 +220,6 @@ body {
     background: var(--bg);
   }
 }
+=======
+@import "tailwindcss";
+>>>>>>> 8651c482823006903a48906e45ab4cd3aa813243

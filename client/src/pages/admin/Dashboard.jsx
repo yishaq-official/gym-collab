@@ -150,7 +150,7 @@ function mapUserToMember(user) {
     expiryDate: formatMemberDate(
       user.member_profile?.membership_expiry_date || user.plan_expires_at
     ),
-    accountStatus: (user.account_status || 'PendingApproval').toLowerCase().replace(/_/g, ''),
+    accountStatus: (user.account_status || 'PendingApproval').toLowerCase(),
     gender: user.gender || '',
     email: user.email || '',
     universityId: user.university_id || '',
