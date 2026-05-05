@@ -75,3 +75,20 @@ final class PaymentTransaction extends BaseModel
         );
     }
 
+    public function markAsSuccess(string $txRef, array $gatewayResponse = []): int
+    {
+        return $this->db->statement(
+            "UPDATE {$this->table()}
+             SET status = 'success',
+                 gateway_response = :gateway_response,
+                 verified_at = NOW(),
+                 updated_at = NOW()
+             WHERE tx_ref = :tx_ref",
+            [
+                'tx_ref' => $txRef,
+                'gateway_response' => json_encode($gatewayResponse, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            ]
+        );
+    }
+
+}
