@@ -69,5 +69,13 @@ final class Membership extends BaseModel
         );
     }
 
-    
+    public function markPaymentFailed(int $id): int
+    {
+        return $this->db->statement(
+            "UPDATE {$this->table()}
+             SET payment_status = 'failed', updated_at = NOW()
+             WHERE id = :id",
+            ['id' => $id]
+        );
+    }
 }
