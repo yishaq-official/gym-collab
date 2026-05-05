@@ -36,4 +36,21 @@ final class PaymentController extends BaseController
     }
 
     
+
+    public function chapaCallback(Request $request, Response $response): void
+    {
+        $payload = $request->input();
+        $txRef = (string) ($payload['tx_ref'] ?? $payload['trx_ref'] ?? '');
+
+        try {
+            $result = $this->payments->verifyChapaPayment($txRef);
+            $this->ok($response, $result, 'Payment callback processed.');
+        } catch (HttpException $exception) {
+            throw $exception;
+        } catch (RuntimeException $exception) {
+            throw new HttpException($exception->getMessage(), 422);
+        } catch (Throwable $exception) {
+            throw new HttpException('Payment callback failed: ' . $exception->getMessage(), 422);
+        }
+    }
 }
