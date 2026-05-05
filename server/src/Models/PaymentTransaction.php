@@ -109,5 +109,21 @@ final class PaymentTransaction extends BaseModel
         );
     }
 
-    
+    public function markAsCancelled(string $txRef, ?string $reason = null, array $gatewayResponse = []): int
+    {
+        return $this->db->statement(
+            "UPDATE {$this->table()}
+             SET status = 'cancelled',
+                 failure_reason = :failure_reason,
+                 gateway_response = :gateway_response,
+                 failed_at = NOW(),
+                 updated_at = NOW()
+             WHERE tx_ref = :tx_ref",
+            [
+                'tx_ref' => $txRef,
+                'failure_reason' => $reason,
+                'gateway_response' => json_encode($gatewayResponse, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            ]
+        );
+    }
 }
