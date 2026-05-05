@@ -48,5 +48,18 @@ final class PaymentTransaction extends BaseModel
         return (int) $this->db->pdo()->lastInsertId();
     }
 
+    public function updateCheckoutUrl(string $txRef, string $checkoutUrl): int
+    {
+        return $this->db->statement(
+            "UPDATE {$this->table()}
+             SET checkout_url = :checkout_url, updated_at = NOW()
+             WHERE tx_ref = :tx_ref",
+            [
+                'tx_ref' => $txRef,
+                'checkout_url' => $checkoutUrl,
+            ]
+        );
+    }
+
     
 }
