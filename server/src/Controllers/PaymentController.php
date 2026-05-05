@@ -35,7 +35,23 @@ final class PaymentController extends BaseController
         }
     }
 
-    
+    public function verifyChapa(Request $request, Response $response, array $params = []): void
+    {
+        $txRef = (string) ($params['tx_ref'] ?? '');
+
+        try {
+            $result = $this->payments->verifyChapaPayment($txRef);
+            $this->ok($response, $result, 'Payment verification completed.');
+        } catch (HttpException $exception) {
+            throw $exception;
+        } catch (RuntimeException $exception) {
+            $message = $exception->getMessage();
+            $status = str_contains(strtolower($message), 'not found') ? 404 : 422;
+            throw new HttpException($message, $status);
+        } catch (Throwable $exception) {
+            throw new HttpException('Payment verification failed: ' . $exception->getMessage(), 422);
+        }
+    }
 
     public function chapaCallback(Request $request, Response $response): void
     {
