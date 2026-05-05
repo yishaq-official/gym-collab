@@ -61,5 +61,17 @@ final class PaymentTransaction extends BaseModel
         );
     }
 
-    
-}
+    public function linkUserAndMembership(string $txRef, int $userId, int $membershipId): int
+    {
+        return $this->db->statement(
+            "UPDATE {$this->table()}
+             SET user_id = :user_id, membership_id = :membership_id, updated_at = NOW()
+             WHERE tx_ref = :tx_ref",
+            [
+                'tx_ref' => $txRef,
+                'user_id' => $userId,
+                'membership_id' => $membershipId,
+            ]
+        );
+    }
+
