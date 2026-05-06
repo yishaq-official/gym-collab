@@ -20,6 +20,11 @@ final class MembershipService
         return $this->memberships->findLatestByUserId($userId);
     }
 
+    public function findLatestPaidByUserId(int $userId): ?array
+    {
+        return $this->memberships->findLatestPaidByUserId($userId);
+    }
+
     public function create(array $payload): array
     {
         $id = $this->memberships->create($payload);
