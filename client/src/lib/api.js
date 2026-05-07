@@ -287,6 +287,44 @@ export async function getAuditLogs(limit = 50) {
   })
 }
 
+export async function getSchedules() {
+  return request('/api/schedules', {
+    method: 'GET',
+  })
+}
+
+export async function getMemberSchedules() {
+  return request('/api/member/schedules', {
+    method: 'GET',
+  })
+}
+
+export async function getAdminSchedules() {
+  return request('/api/admin/schedules', {
+    method: 'GET',
+  })
+}
+
+export async function createAdminSchedule(payload) {
+  return request('/api/admin/schedules', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export async function updateAdminSchedule(scheduleId, payload) {
+  return request(`/api/admin/schedules/${scheduleId}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
+}
+
+export async function cancelAdminSchedule(scheduleId) {
+  return request(`/api/admin/schedules/${scheduleId}/cancel`, {
+    method: 'PATCH',
+  })
+}
+
 export async function uploadSystemLogo(file) {
   const formData = new FormData()
   formData.append('logo', file)

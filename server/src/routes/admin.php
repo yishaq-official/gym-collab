@@ -8,6 +8,7 @@ use Yishaq\Server\Controllers\Admin\MemberController;
 use Yishaq\Server\Controllers\Admin\ProfileController;
 use Yishaq\Server\Controllers\Admin\SettingsController;
 use Yishaq\Server\Controllers\Admin\AuditController;
+use Yishaq\Server\Controllers\ScheduleController;
 use Yishaq\Server\Core\Request;
 use Yishaq\Server\Core\Response;
 use Yishaq\Server\Middleware\AuthMiddleware;
@@ -99,6 +100,26 @@ $router->post('/api/admin/profile/avatar', static function (Request $request, Re
 $router->get('/api/admin/settings', static function (Request $request, Response $response): void {
     $user = adminRequireAuth($request);
     (new SettingsController())->show($request, $response, $user);
+});
+
+$router->get('/api/admin/schedules', static function (Request $request, Response $response): void {
+    $user = adminRequireAuth($request);
+    (new ScheduleController())->adminIndex($request, $response, $user);
+});
+
+$router->post('/api/admin/schedules', static function (Request $request, Response $response): void {
+    $user = adminRequireAuth($request);
+    (new ScheduleController())->store($request, $response, $user);
+});
+
+$router->put('/api/admin/schedules/{id}', static function (Request $request, Response $response, array $params): void {
+    $user = adminRequireAuth($request);
+    (new ScheduleController())->update($request, $response, $user, $params);
+});
+
+$router->patch('/api/admin/schedules/{id}/cancel', static function (Request $request, Response $response, array $params): void {
+    $user = adminRequireAuth($request);
+    (new ScheduleController())->cancel($request, $response, $user, $params);
 });
 
 $router->put('/api/admin/settings', static function (Request $request, Response $response): void {
