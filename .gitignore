@@ -2,3 +2,6 @@
 schema.txt
 .env
 server/.env
+client/.env
+client/dist/
+client/node_modules/
