@@ -287,6 +287,38 @@ export async function getAuditLogs(limit = 50) {
   })
 }
 
+export async function getEquipment() {
+  return request('/api/equipment', {
+    method: 'GET',
+  })
+}
+
+export async function getAdminEquipment() {
+  return request('/api/admin/equipment', {
+    method: 'GET',
+  })
+}
+
+export async function createAdminEquipment(payload) {
+  return request('/api/admin/equipment', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export async function updateAdminEquipment(equipmentId, payload) {
+  return request(`/api/admin/equipment/${equipmentId}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
+}
+
+export async function deleteAdminEquipment(equipmentId) {
+  return request(`/api/admin/equipment/${equipmentId}`, {
+    method: 'DELETE',
+  })
+}
+
 export async function uploadSystemLogo(file) {
   const formData = new FormData()
   formData.append('logo', file)
@@ -360,6 +392,14 @@ export async function updateMemberPassword(payload) {
 
 export async function getMemberDashboard() {
   return request('/api/member/dashboard', {
+    method: 'GET',
+  })
+}
+
+export async function getMemberNotifications(limit = 10) {
+  const cleanedLimit = Number.isFinite(Number(limit)) ? Number(limit) : 10
+  const safeLimit = Math.max(1, Math.min(50, cleanedLimit))
+  return request(`/api/member/notifications?limit=${encodeURIComponent(safeLimit)}`, {
     method: 'GET',
   })
 }

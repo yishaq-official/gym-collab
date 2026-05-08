@@ -266,12 +266,21 @@ CREATE TABLE `equipment` (
 
 CREATE TABLE `schedules` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(120) NOT NULL DEFAULT 'Gym Hours',
+  `day_label` VARCHAR(80) NOT NULL DEFAULT 'Weekdays',
+  `start_time` TIME NULL,
+  `end_time` TIME NULL,
+  `location` VARCHAR(120) NULL,
+  `notes` TEXT NULL,
   `scheduled_datetime` TIMESTAMP NOT NULL,
   `status` ENUM('scheduled','cancelled','completed') NOT NULL DEFAULT 'scheduled',
+  `is_visible` TINYINT(1) NOT NULL DEFAULT 1,
+  `sort_order` INT NOT NULL DEFAULT 0,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `schedules_datetime_status_index` (`scheduled_datetime`, `status`)
+  KEY `schedules_datetime_status_index` (`scheduled_datetime`, `status`),
+  KEY `schedules_visible_order_index` (`is_visible`, `status`, `sort_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `notifications` (
