@@ -287,41 +287,35 @@ export async function getAuditLogs(limit = 50) {
   })
 }
 
-export async function getSchedules() {
-  return request('/api/schedules', {
+export async function getEquipment() {
+  return request('/api/equipment', {
     method: 'GET',
   })
 }
 
-export async function getMemberSchedules() {
-  return request('/api/member/schedules', {
+export async function getAdminEquipment() {
+  return request('/api/admin/equipment', {
     method: 'GET',
   })
 }
 
-export async function getAdminSchedules() {
-  return request('/api/admin/schedules', {
-    method: 'GET',
-  })
-}
-
-export async function createAdminSchedule(payload) {
-  return request('/api/admin/schedules', {
+export async function createAdminEquipment(payload) {
+  return request('/api/admin/equipment', {
     method: 'POST',
     body: JSON.stringify(payload),
   })
 }
 
-export async function updateAdminSchedule(scheduleId, payload) {
-  return request(`/api/admin/schedules/${scheduleId}`, {
+export async function updateAdminEquipment(equipmentId, payload) {
+  return request(`/api/admin/equipment/${equipmentId}`, {
     method: 'PUT',
     body: JSON.stringify(payload),
   })
 }
 
-export async function cancelAdminSchedule(scheduleId) {
-  return request(`/api/admin/schedules/${scheduleId}/cancel`, {
-    method: 'PATCH',
+export async function deleteAdminEquipment(equipmentId) {
+  return request(`/api/admin/equipment/${equipmentId}`, {
+    method: 'DELETE',
   })
 }
 
@@ -398,6 +392,14 @@ export async function updateMemberPassword(payload) {
 
 export async function getMemberDashboard() {
   return request('/api/member/dashboard', {
+    method: 'GET',
+  })
+}
+
+export async function getMemberNotifications(limit = 10) {
+  const cleanedLimit = Number.isFinite(Number(limit)) ? Number(limit) : 10
+  const safeLimit = Math.max(1, Math.min(50, cleanedLimit))
+  return request(`/api/member/notifications?limit=${encodeURIComponent(safeLimit)}`, {
     method: 'GET',
   })
 }
