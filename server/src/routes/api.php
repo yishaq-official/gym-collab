@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Yishaq\Server\Controllers\AuthController;
+use Yishaq\Server\Controllers\EquipmentController;
 use Yishaq\Server\Controllers\PaymentController;
-use Yishaq\Server\Controllers\ScheduleController;
 use Yishaq\Server\Core\AppContext;
 use Yishaq\Server\Core\Exceptions\HttpException;
 use Yishaq\Server\Core\Request;
@@ -46,8 +46,8 @@ $router->get('/health/db', static function (Request $request, Response $response
     );
 });
 
-$router->get('/api/schedules', static function (Request $request, Response $response): void {
-    (new ScheduleController())->publicIndex($request, $response);
+$router->get('/api/equipment', static function (Request $request, Response $response): void {
+    (new EquipmentController())->publicIndex($request, $response);
 });
 
 $router->post('/api/auth/register', static function (Request $request, Response $response): void {
