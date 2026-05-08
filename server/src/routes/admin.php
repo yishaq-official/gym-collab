@@ -8,7 +8,7 @@ use Yishaq\Server\Controllers\Admin\MemberController;
 use Yishaq\Server\Controllers\Admin\ProfileController;
 use Yishaq\Server\Controllers\Admin\SettingsController;
 use Yishaq\Server\Controllers\Admin\AuditController;
-use Yishaq\Server\Controllers\ScheduleController;
+use Yishaq\Server\Controllers\EquipmentController;
 use Yishaq\Server\Core\Request;
 use Yishaq\Server\Core\Response;
 use Yishaq\Server\Middleware\AuthMiddleware;
@@ -45,6 +45,26 @@ $router->put('/api/admin/members/{id}', static function (Request $request, Respo
 $router->patch('/api/admin/members/{id}/status', static function (Request $request, Response $response, array $params): void {
     $user = adminRequireAuth($request);
     (new MemberController())->updateStatus($request, $response, $user, $params);
+});
+
+$router->get('/api/admin/equipment', static function (Request $request, Response $response): void {
+    $user = adminRequireAuth($request);
+    (new EquipmentController())->adminIndex($request, $response, $user);
+});
+
+$router->post('/api/admin/equipment', static function (Request $request, Response $response): void {
+    $user = adminRequireAuth($request);
+    (new EquipmentController())->store($request, $response, $user);
+});
+
+$router->put('/api/admin/equipment/{id}', static function (Request $request, Response $response, array $params): void {
+    $user = adminRequireAuth($request);
+    (new EquipmentController())->update($request, $response, $user, $params);
+});
+
+$router->delete('/api/admin/equipment/{id}', static function (Request $request, Response $response, array $params): void {
+    $user = adminRequireAuth($request);
+    (new EquipmentController())->destroy($request, $response, $user, $params);
 });
 
 $router->get('/api/admin/approvals', static function (Request $request, Response $response): void {
@@ -100,26 +120,6 @@ $router->post('/api/admin/profile/avatar', static function (Request $request, Re
 $router->get('/api/admin/settings', static function (Request $request, Response $response): void {
     $user = adminRequireAuth($request);
     (new SettingsController())->show($request, $response, $user);
-});
-
-$router->get('/api/admin/schedules', static function (Request $request, Response $response): void {
-    $user = adminRequireAuth($request);
-    (new ScheduleController())->adminIndex($request, $response, $user);
-});
-
-$router->post('/api/admin/schedules', static function (Request $request, Response $response): void {
-    $user = adminRequireAuth($request);
-    (new ScheduleController())->store($request, $response, $user);
-});
-
-$router->put('/api/admin/schedules/{id}', static function (Request $request, Response $response, array $params): void {
-    $user = adminRequireAuth($request);
-    (new ScheduleController())->update($request, $response, $user, $params);
-});
-
-$router->patch('/api/admin/schedules/{id}/cancel', static function (Request $request, Response $response, array $params): void {
-    $user = adminRequireAuth($request);
-    (new ScheduleController())->cancel($request, $response, $user, $params);
 });
 
 $router->put('/api/admin/settings', static function (Request $request, Response $response): void {
