@@ -543,6 +543,9 @@ export default function AdminSettings() {
                 ) : null}
               </div>
               <div className="p-6">
+                <p className="mb-4 text-sm text-[var(--text-soft)]">
+                  Configure how system updates and account activity alerts are delivered to members.
+                </p>
                 <div className="flex gap-6">
                   <label className="flex items-center gap-3 text-sm text-[var(--text-muted)]">
                     <input
@@ -567,6 +570,7 @@ export default function AdminSettings() {
                     type="email"
                     value={settings.senderEmail}
                     onChange={(event) => updateSetting('senderEmail', event.target.value)}
+                    placeholder="support@dbugym.com"
                     className="mt-2 w-full rounded-xl border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-sm"
                   />
                 </label>
@@ -576,6 +580,7 @@ export default function AdminSettings() {
                     type="password"
                     value={settings.apiKey}
                     onChange={(event) => updateSetting('apiKey', event.target.value)}
+                    placeholder="Enter provider API key"
                     className="mt-2 w-full rounded-xl border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-sm"
                   />
                 </label>
