@@ -7,8 +7,8 @@ use Yishaq\Server\Core\Request;
 use Yishaq\Server\Core\Response;
 use Yishaq\Server\Controllers\Member\DashboardController;
 use Yishaq\Server\Controllers\Member\MembershipController;
+use Yishaq\Server\Controllers\Member\NotificationController;
 use Yishaq\Server\Controllers\Member\ProfileController;
-use Yishaq\Server\Controllers\ScheduleController;
 use Yishaq\Server\Middleware\AuthMiddleware;
 use Yishaq\Server\Middleware\RoleMiddleware;
 
@@ -25,9 +25,9 @@ $router->get('/api/member/dashboard', static function (Request $request, Respons
     (new DashboardController())->show($request, $response, $user);
 });
 
-$router->get('/api/member/schedules', static function (Request $request, Response $response): void {
-    memberRequireAuth($request);
-    (new ScheduleController())->publicIndex($request, $response);
+$router->get('/api/member/notifications', static function (Request $request, Response $response): void {
+    $user = memberRequireAuth($request);
+    (new NotificationController())->index($request, $response, $user);
 });
 
 $router->get('/api/member/profile', static function (Request $request, Response $response): void {

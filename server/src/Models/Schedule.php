@@ -13,9 +13,6 @@ final class Schedule extends BaseModel
         return 'schedules';
     }
 
-    /**
-     * @return array<int, array<string, mixed>>
-     */
     public function all(bool $onlyVisible = false): array
     {
         $this->ensureSchema();
@@ -74,10 +71,6 @@ final class Schedule extends BaseModel
     {
         $this->ensureSchema();
 
-        if ($payload === []) {
-            return 0;
-        }
-
         $columns = [
             'title',
             'day_label',
@@ -92,6 +85,7 @@ final class Schedule extends BaseModel
 
         $set = [];
         $bindings = ['id' => $id];
+
         foreach ($columns as $column) {
             if (!array_key_exists($column, $payload)) {
                 continue;
@@ -149,31 +143,38 @@ final class Schedule extends BaseModel
         }
     }
 
-    /**
-     * @return array<int, array<string, mixed>>
-     */
     private function defaultRows(): array
     {
         return [
             [
                 'title' => 'Gym Hours',
                 'day_label' => 'Monday - Friday',
-                'start_time' => '06:00:00',
-                'end_time' => '21:00:00',
+                'start_time' => '05:00:00',
+                'end_time' => '23:00:00',
                 'location' => 'Main gym',
-                'notes' => 'Regular training hours',
+                'notes' => 'Regular weekday training hours',
                 'is_visible' => true,
                 'sort_order' => 1,
             ],
             [
-                'title' => 'Weekend Hours',
-                'day_label' => 'Saturday - Sunday',
-                'start_time' => '08:00:00',
-                'end_time' => '18:00:00',
+                'title' => 'Saturday Hours',
+                'day_label' => 'Saturday',
+                'start_time' => '06:00:00',
+                'end_time' => '22:00:00',
                 'location' => 'Main gym',
-                'notes' => 'Reduced weekend schedule',
+                'notes' => 'Weekend training hours',
                 'is_visible' => true,
                 'sort_order' => 2,
+            ],
+            [
+                'title' => 'Sunday Hours',
+                'day_label' => 'Sunday',
+                'start_time' => '07:00:00',
+                'end_time' => '21:00:00',
+                'location' => 'Main gym',
+                'notes' => 'Weekend training hours',
+                'is_visible' => true,
+                'sort_order' => 3,
             ],
         ];
     }
