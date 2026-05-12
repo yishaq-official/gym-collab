@@ -64,15 +64,13 @@ final class ScheduleService
 
     private function validate(array $payload, bool $requireAll = true): array
     {
-        $clean = [];
-        $required = ['title', 'day_label', 'start_time', 'end_time'];
-
-        foreach ($required as $field) {
+        foreach (['title', 'day_label', 'start_time', 'end_time'] as $field) {
             if ($requireAll && trim((string) ($payload[$field] ?? '')) === '') {
                 throw new InvalidArgumentException(str_replace('_', ' ', ucfirst($field)) . ' is required.');
             }
         }
 
+        $clean = [];
         foreach (['title', 'day_label', 'location', 'notes'] as $field) {
             if (array_key_exists($field, $payload)) {
                 $clean[$field] = trim((string) $payload[$field]);
@@ -95,6 +93,8 @@ final class ScheduleService
                 throw new InvalidArgumentException('Schedule status is invalid.');
             }
             $clean['status'] = $status;
+        } elseif ($requireAll) {
+            $clean['status'] = 'scheduled';
         }
 
         if (array_key_exists('is_visible', $payload)) {
